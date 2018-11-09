@@ -1,0 +1,29 @@
+{
+  "name": "create-ready-react-app",
+  "version": "1.0.1",
+  "description": "Empty for now",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iorlovsky/create-ready-react-app.git"
+  },
+  "keywords": [
+    "create",
+    "prepared",
+    "react",
+    "app"
+  ],
+  "author": "iorlovsky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iorlovsky/create-ready-react-app/issues"
+  },
+  "homepage": "https://github.com/iorlovsky/create-ready-react-app#readme",
+  "dependencies": {
+    "colors": "^1.3.2",
+    "shelljs": "^0.8.2"
+  }
+}
