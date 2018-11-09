@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-let shell = require('shelljs');
+const spawn = require('cross-spawn');
 let colors = require('colors');
 
 let appName = process.argv[2];
@@ -9,10 +9,20 @@ let appName = process.argv[2];
 const createReactApp = () => {
   return new Promise(resolve=>{
     if(appName){
-      shell.exec(`npx create-react-app ${appName}`, () => {
-        console.log("Created react app".cyan);
-        resolve(true)
-      })
+
+      const command = 'npx';
+      let args = ['create-react-app', appName];
+
+      let proc = spawn(command, args, {stdio: 'inherit'});
+
+      proc.on('close', code => {
+          if (code !== 0 ) {
+            console.error(`${command} ${args.join(' ')} failed`.red);
+            resolve(false);
+          }
+          console.log("Created react app".cyan);
+          resolve(true)
+      });
     }else{
       console.log("\nNo app name was provided.".red);
       console.log("\nProvide an app name in the following format: ");
@@ -33,5 +43,5 @@ const run = async () => {
 
 run()
   .catch(err => {
-    console.log(err, 'Something went wrong'.red)
+    console.log(err, 'Something went wrong'.cyan)
   });
