@@ -2,6 +2,8 @@
 
 const spawn = require('cross-spawn');
 let colors = require('colors');
+let createAppStructure = require('./utils/prepareReactApp').createAppStructure;
+let setTemplates = require('./utils/prepareReactApp').setTemplates;
 
 let appName = process.argv[2];
 
@@ -20,7 +22,7 @@ const createReactApp = () => {
             console.error(`${command} ${args.join(' ')} failed`.red);
             resolve(false);
           }
-          console.log("Created react app".cyan);
+          console.log("\nCreated successfully\n".cyan);
           resolve(true)
       });
     }else{
@@ -38,10 +40,25 @@ const run = async () => {
     console.log('Something went wrong while trying to create a new React app using create-react-app'.red);
     return false;
   }
-  console.log("All done".cyan)
+
+  try {
+    createAppStructure(appName);
+    console.log("\nStructure is created successfully\n".cyan);
+  } catch (err) {
+    console.error(`\nUnable to create structure for ${appName}`.red);
+  }
+
+  try {
+    setTemplates(appName);
+    console.log("\nTemplates are set successfully\n".cyan);
+  } catch (err) {
+    console.error(`\nUnable to set templates for ${appName}`.red);
+  }
+
+  console.log("\nAll done\n".cyan);
 };
 
 run()
   .catch(err => {
-    console.log(err, 'Something went wrong'.cyan)
+    console.log(err, '\nSomething went wrong\n'.cyan)
   });
