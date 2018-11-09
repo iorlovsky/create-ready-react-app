@@ -25,5 +25,8 @@
   "dependencies": {
     "colors": "^1.3.2",
     "shelljs": "^0.8.2"
+  },
+  "bin": {
+    "create-ready-react-app": "index.js"
   }
 }
