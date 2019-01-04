@@ -1,47 +1,37 @@
 const path = require('path');
 const fs = require('fs');
 const appjs = require('../templates/App');
+const dirs2create = require('../constants/fileStructure').dirs2create;
+const files2create = require('../constants/fileStructure').files2create;
+const files2delete = require('../constants/fileStructure').files2delete;
 
 const setTemplates = (appName) => {
-  const templatesMap = [
-    {file: path.join(appName, 'src', 'App.js'), template: appjs}
-  ];
-  templatesMap.forEach(el => fs.writeFileSync(el.file, el.template));
+  return new Promise( resolve => {
+    const templatesMap = [
+      {file: path.join(appName, 'src', 'App.js'), template: appjs}
+    ];
+    templatesMap.forEach(el => fs.writeFileSync(el.file, el.template));
+
+    resolve(true)
+  });
 };
 
 const createAppStructure = (appName) => {
-  const dirs2Create = [
-    path.join(appName, 'src', 'app'),
-    path.join(appName, 'src', 'app', 'components'),
-    path.join(appName, 'src', 'app', 'modules'),
-    path.join(appName, 'src', 'app', 'modules', 'actions'),
-    path.join(appName, 'src', 'app', 'modules', 'reducers'),
-    path.join(appName, 'src', 'app', 'modules', 'store'),
-    path.join(appName, 'src', 'app', 'pages'),
-    path.join(appName, 'src', 'app', 'router'),
-    path.join(appName, 'src', 'app', 'utils'),
-    path.join(appName, 'src', 'assets'),
-    path.join(appName, 'src', 'assets', 'styles'),
-    path.join(appName, 'src', 'assets', 'styles', 'base'),
-    path.join(appName, 'src', 'assets', 'styles', 'components'),
-    path.join(appName, 'src', 'assets', 'styles', 'elements'),
-    path.join(appName, 'src', 'assets', 'styles', 'variables'),
-  ];
+  return new Promise( resolve => {
+    dirs2create
+      .map(dir => path.join(appName, dir))
+      .forEach(dir => fs.mkdirSync(dir));
 
-  const files2create = [
-    path.join(appName, 'src', 'assets', 'styles', 'base', '_layout.scss'),
-    path.join(appName, 'src', 'assets', 'styles', 'base', '_typography.scss')
-  ];
+    files2create
+      .map(file => path.join(appName, file))
+      .forEach(file => fs.appendFileSync(file, ''));
 
-  const files2delete = [
-    path.join(appName, 'src', 'App.css'),
-    path.join(appName, 'src', 'index.css'),
-    path.join(appName, 'src', 'logo.svg'),
-  ];
+    files2delete
+      .map(file => path.join(appName, file))
+      .forEach(file => fs.unlinkSync(file));
 
-  dirs2Create.forEach(dir => fs.mkdirSync(dir));
-  files2create.forEach(file => fs.appendFileSync(file, ''));
-  files2delete.forEach(file => fs.unlinkSync(file));
+    resolve(true);
+  });
 };
 
 

@@ -21,9 +21,10 @@ const createReactApp = () => {
           if (code !== 0 ) {
             console.error(`${command} ${args.join(' ')} failed`.red);
             resolve(false);
+          } else {
+            console.log("\nCreated successfully\n".cyan);
+            resolve(true)
           }
-          console.log("\nCreated successfully\n".cyan);
-          resolve(true)
       });
     }else{
       console.log("\nNo app name was provided.".red);
@@ -35,30 +36,25 @@ const createReactApp = () => {
 };
 
 const run = async () => {
-  let success = await createReactApp();
-  if(!success){
+  let createReactAppSuccess = await createReactApp();
+  if(!createReactAppSuccess){
     console.log('Something went wrong while trying to create a new React app using create-react-app'.red);
     return false;
   }
 
-  try {
-    createAppStructure(appName);
-    console.log("\nStructure is created successfully\n".cyan);
-  } catch (err) {
+  const createAppStructureSuccess = await createAppStructure(appName);
+  if (!createAppStructureSuccess) {
     console.error(`\nUnable to create structure for ${appName}`.red);
+    return false;
   }
 
-  try {
-    setTemplates(appName);
-    console.log("\nTemplates are set successfully\n".cyan);
-  } catch (err) {
+  const setTemplatesSuccess = await setTemplates(appName);
+  if (!setTemplatesSuccess) {
     console.error(`\nUnable to set templates for ${appName}`.red);
+    return false;
   }
-
-  console.log("\nAll done\n".cyan);
 };
 
 run()
-  .catch(err => {
-    console.log(err, '\nSomething went wrong\n'.cyan)
-  });
+  .then(() => console.log("\nAll done\n".cyan))
+  .catch(err => console.log(err, '\nSomething went wrong\n'.cyan));
