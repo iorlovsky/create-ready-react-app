@@ -1,6 +1,6 @@
 const typesJs = `
 module.exports = {
-  SIMPLE_ACTION: 'SIMPLE_ACTION'
+  TEST_ACTION: 'TEST_ACTION'
 };
 `;
 

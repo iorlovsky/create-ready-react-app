@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
 const spawn = require('cross-spawn');
-let colors = require('colors');
-let createAppStructure = require('./utils/prepareReactApp').createAppStructure;
-let setTemplates = require('./utils/prepareReactApp').setTemplates;
+const colors = require('colors');
+const createAppStructure = require('./utils/prepareReactApp').createAppStructure;
+const setTemplates = require('./utils/prepareReactApp').setTemplates;
+const installDependencies = require('./utils/prepareReactApp').installDependencies;
+const dependencies = require('./constants/dependencies');
 
-let appName = process.argv[2];
+const appName = process.argv[2];
 
 
 const createReactApp = () => {
@@ -36,7 +38,7 @@ const createReactApp = () => {
 };
 
 const run = async () => {
-  let createReactAppSuccess = await createReactApp();
+  const createReactAppSuccess = await createReactApp();
   if(!createReactAppSuccess){
     console.log('Something went wrong while trying to create a new React app using create-react-app'.red);
     return false;
@@ -52,6 +54,15 @@ const run = async () => {
   if (!setTemplatesSuccess) {
     console.error(`\nUnable to set templates for ${appName}`.red);
     return false;
+  }
+
+  console.log(`Installing ${dependencies.join(", ").cyan}...\n`);
+  const installDependenciesSuccess = await installDependencies(appName, dependencies);
+  if (!installDependenciesSuccess) {
+    console.error(`\nInstalling failed${appName}`.red);
+    return false;
+  } else {
+    console.log('Installed  successfully'.cyan);
   }
 };
 

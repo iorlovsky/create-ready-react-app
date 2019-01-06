@@ -20,7 +20,12 @@ const dirs2create = [
 
 const files2create = [
   path.join('src', 'assets', 'styles', 'base', '_layout.scss'),
-  path.join('src', 'assets', 'styles', 'base', '_typography.scss')
+  path.join('src', 'assets', 'styles', 'base', '_typography.scss'),
+  path.join('src', 'assets', 'styles', 'components', '_simple_component.scss'),
+  path.join('src', 'assets', 'styles', 'elements', '_buttons.scss'),
+  path.join('src', 'assets', 'styles', 'elements', '_forms.scss'),
+  path.join('src', 'assets', 'styles', 'variables', '_colors.scss'),
+  path.join('src', 'assets', 'styles', 'app.scss'),
 ];
 
 const files2delete = [

@@ -1,6 +1,6 @@
 const appjs = `
 import React, { Component } from 'react';
-import 'AppStyles';
+import './assets/styles/app.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AppRouter from "./app/router";
 import {Provider} from "react-redux";
